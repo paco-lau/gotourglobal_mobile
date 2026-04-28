@@ -1,5 +1,6 @@
 import { StyleSheet, View, ScrollView, Pressable, Text } from 'react-native';
 import { useRef } from 'react';
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Inter_500Medium, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
@@ -20,7 +21,7 @@ const TRIPS = [
   },
   {
     id: '3',
-    image: require('@/assets/places/NewYorkExperience.png'),
+    image: require('@/assets/places/NewYork.png'),
     title: 'New York Experience',
     subtitle: '$3,507 total | 4 nights',
   },
@@ -69,7 +70,7 @@ export default function ExploreScreen() {
         />
       </View>
       <View style={styles.searchWrapper}>
-        <Pressable style={styles.searchBar} onPress={() => {}}>
+        <Pressable style={styles.searchBar} onPress={() => router.push('/search')}>
           <Ionicons name="search" size={18} color="#9BA1A6" />
           <Text style={styles.searchText}>Search</Text>
         </Pressable>
