@@ -1,9 +1,16 @@
 import { StyleSheet, View, Text } from 'react-native';
+import { useFonts, Inter_700Bold } from '@expo-google-fonts/inter';
 
 export default function ProfileScreen() {
+  const [fontsLoaded] = useFonts({ Inter_700Bold });
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
+      <View style={styles.header}>
+        <Text style={[styles.title, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>
+          Profile
+        </Text>
+      </View>
     </View>
   );
 }
@@ -11,12 +18,17 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFA500',
+    backgroundColor: '#F0EAE6',
+  },
+  header: {
+    height: 300,
+    backgroundColor: '#E46F44',
+    paddingHorizontal: 20,
+    paddingTop: 56,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
+    color: '#FFFFFF',
   },
 });
