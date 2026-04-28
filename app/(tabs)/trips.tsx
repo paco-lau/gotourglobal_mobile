@@ -1,10 +1,11 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
-import { useState, useRef } from 'react';
+import { StyleSheet, View, Text, Pressable, ImageBackground, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
-import { useFonts, Inter_700Bold } from '@expo-google-fonts/inter';
+import { useFonts, Inter_700Bold, Inter_400Regular } from '@expo-google-fonts/inter';
 
 export default function TripsScreen() {
-  const [fontsLoaded] = useFonts({ Inter_700Bold });
+  const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular });
   const [active, setActive] = useState<'upcoming' | 'past'>('upcoming');
   const slideX = useSharedValue(0);
 
@@ -45,6 +46,34 @@ export default function TripsScreen() {
           </Text>
         </Pressable>
       </View>
+
+      {(active === 'upcoming' || active === 'past') && (
+        <ScrollView contentContainerStyle={styles.destinationList} showsVerticalScrollIndicator={false}>
+          {(active === 'upcoming' ? [
+            { label: 'Costa Rica', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/CostaRicaHorizontal.png') },
+            { label: 'Paris', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/ParisHorizontal.png') },
+            { label: 'Singapore', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/SingaporeHorizontal.png') },
+          ] : [
+            { label: 'San Francisco', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/SanFranciscoHorizontal.png') },
+            { label: 'New York City', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/NewYorkCityHorizontal.png') },
+          ]).map(({ label, subtitle, image }) => (
+            <Pressable key={label} style={styles.destinationCard}>
+              <ImageBackground source={image} style={styles.destinationImage} imageStyle={styles.destinationImageStyle} resizeMode="cover">
+                <View style={styles.cardOverlay} />
+                <View style={styles.cardContent}>
+                  <View style={styles.cardTopLeft}>
+                    <Text style={[styles.destinationLabel, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>{label}</Text>
+                    <Text style={[styles.destinationSubtitle, fontsLoaded && { fontFamily: 'Inter_400Regular' }]}>{subtitle}</Text>
+                  </View>
+                  <View style={styles.cardBottomRight}>
+                    <Ionicons name="arrow-forward" size={36} color="#FFFFFF" />
+                  </View>
+                </View>
+              </ImageBackground>
+            </Pressable>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 }
@@ -94,5 +123,50 @@ const styles = StyleSheet.create({
   },
   tabTextActive: {
     color: '#FFFFFF',
+  },
+  destinationList: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 20,
+    paddingBottom: 32,
+    gap: 16,
+  },
+  destinationCard: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    height: 160,
+  },
+  destinationImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  destinationImageStyle: {
+    borderRadius: 16,
+    width: '100%',
+    height: '100%',
+  },
+  cardOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  cardContent: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  cardTopLeft: {},
+  cardBottomRight: {
+    alignSelf: 'flex-end',
+  },
+  destinationLabel: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  destinationSubtitle: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    marginTop: 2,
   },
 });
