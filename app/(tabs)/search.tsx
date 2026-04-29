@@ -263,7 +263,7 @@ export default function SearchScreen() {
                       <Text style={[styles.dropdownItemText, option === tripKind && styles.dropdownItemTextSelected]}>
                         {option}
                       </Text>
-                      {option === tripKind && <Ionicons name="checkmark" size={16} color="#E46F44" />}
+                      {option === tripKind && <Ionicons name="checkmark" size={16} color="#E8613A" />}
                     </Pressable>
                   ))}
                 </ScrollView>
@@ -332,7 +332,7 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F0EAE6' },
-  header: { height: 160, backgroundColor: '#E46F44', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, justifyContent: 'space-between' },
+  header: { height: 160, backgroundColor: '#E8613A', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, justifyContent: 'space-between' },
   backButton: { alignSelf: 'flex-start' },
   tripTypes: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 48 },
   typeButton: { alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20 },
@@ -357,12 +357,12 @@ const styles = StyleSheet.create({
   datePillValue: { fontSize: 15, color: '#11181C', fontFamily: 'Inter_600SemiBold', marginTop: 2 },
   scrollContent: { paddingBottom: 32 },
   actions: { flexDirection: 'row', gap: 12, marginHorizontal: 16, marginTop: 16 },
-  inquiryBtn: { flex: 1, height: 48, borderRadius: 14, borderWidth: 1.5, borderColor: '#E46F44', alignItems: 'center', justifyContent: 'center' },
-  inquiryText: { fontSize: 15, fontFamily: 'Inter_600SemiBold', color: '#E46F44' },
-  searchBtn: { flex: 1, height: 48, borderRadius: 14, backgroundColor: '#E46F44', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  inquiryBtn: { flex: 1, height: 48, borderRadius: 14, borderWidth: 1.5, borderColor: '#E8613A', alignItems: 'center', justifyContent: 'center' },
+  inquiryText: { fontSize: 15, fontFamily: 'Inter_600SemiBold', color: '#E8613A' },
+  searchBtn: { flex: 1, height: 48, borderRadius: 14, backgroundColor: '#E8613A', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
   searchBtnText: { fontSize: 15, fontFamily: 'Inter_600SemiBold', color: '#FFFFFF' },
   visitorTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
-  visitorLocked: { fontSize: 12, fontFamily: 'Inter_400Regular', color: '#E46F44' },
+  visitorLocked: { fontSize: 12, fontFamily: 'Inter_400Regular', color: '#E8613A' },
   visitorRows: { gap: 12 },
   visitorRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   visitorLabel: { fontSize: 15, fontFamily: 'Inter_500Medium', color: '#11181C' },
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   dropdownItem: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14, paddingVertical: 12 },
   dropdownItemSelected: { backgroundColor: '#FFF5F0' },
   dropdownItemText: { fontSize: 14, color: '#11181C', fontFamily: 'Inter_400Regular' },
-  dropdownItemTextSelected: { color: '#E46F44', fontFamily: 'Inter_500Medium' },
+  dropdownItemTextSelected: { color: '#E8613A', fontFamily: 'Inter_500Medium' },
 });
 
 const cal = StyleSheet.create({
@@ -387,7 +387,7 @@ const cal = StyleSheet.create({
   weekday: { flex: 1, textAlign: 'center', fontSize: 11, color: '#9BA1A6', fontFamily: 'Inter_400Regular', paddingBottom: 4 },
   cell: { flex: 1, height: 34, alignItems: 'center', justifyContent: 'center', borderRadius: 17 },
   inRange: { backgroundColor: '#FDEBD9', borderRadius: 0 },
-  selected: { backgroundColor: '#E46F44', borderRadius: 17 },
+  selected: { backgroundColor: '#E8613A', borderRadius: 17 },
   selectedStart: { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
   selectedEnd: { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
   dayText: { fontSize: 13, color: '#11181C', fontFamily: 'Inter_400Regular' },

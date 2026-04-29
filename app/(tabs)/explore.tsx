@@ -1,6 +1,6 @@
 import { StyleSheet, View, ScrollView, Pressable, Text } from 'react-native';
-import { useRef } from 'react';
-import { router } from 'expo-router';
+import { useRef, useCallback } from 'react';
+import { router, useFocusEffect } from 'expo-router';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Inter_500Medium, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
@@ -55,6 +55,12 @@ export default function ExploreScreen() {
   const [fontsLoaded] = useFonts({ Inter_500Medium, Inter_400Regular, Inter_700Bold });
   const popularRef = useRef<ScrollView>(null);
   const nearbyRef = useRef<ScrollView>(null);
+  const mainScrollRef = useRef<ScrollView>(null);
+
+  useFocusEffect(useCallback(() => {
+    const t = setTimeout(() => mainScrollRef.current?.scrollTo({ y: 0, animated: false }), 0);
+    return () => clearTimeout(t);
+  }, []));
 
   const scrollForward = (ref: React.RefObject<ScrollView | null>) => {
     ref.current?.scrollTo({ x: CARD_WIDTH * 1.5, animated: true });
@@ -75,7 +81,7 @@ export default function ExploreScreen() {
           <Text style={styles.searchText}>Search</Text>
         </Pressable>
       </View>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView ref={mainScrollRef} contentContainerStyle={styles.content}>
         <Pressable style={styles.sectionHeader} onPress={() => scrollForward(popularRef)}>
           <Text style={[styles.sectionTitle, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>
             Popular Trips
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 128,
-    backgroundColor: '#E46F44',
+    backgroundColor: '#E8613A',
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 16,

@@ -1,17 +1,24 @@
 import { StyleSheet, View, Text, Pressable, ImageBackground, ScrollView } from 'react-native';
-import { useState, useEffect } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
-import { useFonts, Inter_700Bold, Inter_400Regular } from '@expo-google-fonts/inter';
+import { useFonts, Inter_700Bold, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
+import { Image } from 'expo-image';
 
 export default function TripsScreen() {
   const { tab } = useLocalSearchParams<{ tab?: string }>();
-  const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular });
+  const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular, Inter_500Medium });
   const [active, setActive] = useState<'upcoming' | 'past'>('upcoming');
   const slideX = useSharedValue(0);
 
   const [tabWidth, setTabWidth] = useState(0);
+  const listScrollRef = useRef<ScrollView>(null);
+
+  useFocusEffect(useCallback(() => {
+    const t = setTimeout(() => listScrollRef.current?.scrollTo({ y: 0, animated: false }), 0);
+    return () => clearTimeout(t);
+  }, []));
 
   const indicatorStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: slideX.value }],
@@ -47,19 +54,21 @@ export default function TripsScreen() {
         onLayout={(e) => setTabWidth(e.nativeEvent.layout.width / 2)}>
         <Animated.View style={[styles.indicator, { width: tabWidth }, indicatorStyle]} />
         <Pressable style={styles.tab} onPress={() => select('upcoming')}>
-          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_700Bold' }, active === 'upcoming' && styles.tabTextActive]}>
+          <Image source={require('@/assets/icons/Upcoming.svg')} style={styles.tabIcon} />
+          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }, active === 'upcoming' && styles.tabTextActive]}>
             Upcoming
           </Text>
         </Pressable>
         <Pressable style={styles.tab} onPress={() => select('past')}>
-          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_700Bold' }, active === 'past' && styles.tabTextActive]}>
+          <Image source={require('@/assets/icons/Past.svg')} style={styles.tabIcon} />
+          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }, active === 'past' && styles.tabTextActive]}>
             Past
           </Text>
         </Pressable>
       </View>
 
       {(active === 'upcoming' || active === 'past') && (
-        <ScrollView contentContainerStyle={styles.destinationList} showsVerticalScrollIndicator={false}>
+        <ScrollView ref={listScrollRef} contentContainerStyle={styles.destinationList} showsVerticalScrollIndicator={false}>
           {(active === 'upcoming' ? [
             { label: 'Costa Rica', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/CostaRicaHorizontal.png') },
             { label: 'Paris', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/ParisHorizontal.png') },
@@ -77,7 +86,9 @@ export default function TripsScreen() {
                     <Text style={[styles.destinationSubtitle, fontsLoaded && { fontFamily: 'Inter_400Regular' }]}>{subtitle}</Text>
                   </View>
                   <View style={styles.cardBottomRight}>
-                    <Ionicons name="arrow-forward" size={36} color="#FFFFFF" />
+                    <View style={styles.arrowButton}>
+                      <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
+                    </View>
                   </View>
                 </View>
               </ImageBackground>
@@ -96,7 +107,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 128,
-    backgroundColor: '#E46F44',
+    backgroundColor: '#E8613A',
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 16,
@@ -111,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     marginHorizontal: 16,
     marginTop: 16,
-    borderRadius: 12,
+    borderRadius: 999,
     overflow: 'hidden',
     position: 'relative',
   },
@@ -119,18 +130,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    backgroundColor: '#E46F44',
-    borderRadius: 12,
+    backgroundColor: '#E8613A',
+    borderRadius: 999,
   },
   tab: {
     flex: 1,
     paddingVertical: 12,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6,
+  },
+  tabIcon: {
+    width: 16,
+    height: 16,
   },
   tabText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
     color: '#FFFFFF',
   },
   tabTextActive: {
@@ -170,6 +187,14 @@ const styles = StyleSheet.create({
   cardTopLeft: {},
   cardBottomRight: {
     alignSelf: 'flex-end',
+  },
+  arrowButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#E8613A',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   destinationLabel: {
     fontSize: 25,

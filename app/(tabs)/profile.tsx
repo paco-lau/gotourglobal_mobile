@@ -1,11 +1,18 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
+import { useRef, useCallback } from 'react';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useFonts, Inter_700Bold, Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 export default function ProfileScreen() {
   const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular, Inter_600SemiBold });
+  const scrollRef = useRef<ScrollView>(null);
+
+  useFocusEffect(useCallback(() => {
+    const t = setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: false }), 0);
+    return () => clearTimeout(t);
+  }, []));
 
   return (
     <View style={styles.container}>
@@ -15,6 +22,7 @@ export default function ProfileScreen() {
         </Text>
       </View>
 
+      <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
       <View style={styles.cardsRow}>
         <View style={styles.cardSmall}>
           <Text style={[styles.profileName, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>First, Last</Text>
@@ -62,6 +70,7 @@ export default function ProfileScreen() {
           </Pressable>
         ))}
       </View>
+      </ScrollView>
     </View>
   );
 }
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 128,
-    backgroundColor: '#E46F44',
+    backgroundColor: '#E8613A',
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 16,
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 20,
-    color: '#E46F44',
+    color: '#E8613A',
   },
   sectionTitle: {
     fontSize: 25,
@@ -163,6 +172,9 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginHorizontal: 32,
     marginTop: 24,
+  },
+  scrollContent: {
+    paddingBottom: 32,
   },
   accountList: {
     marginHorizontal: 16,
@@ -191,7 +203,7 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     fontSize: 20,
-    color: '#E46F44',
+    color: '#E8613A',
     marginLeft: 12,
     flex: 1,
   },
