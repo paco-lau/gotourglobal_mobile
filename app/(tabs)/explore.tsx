@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
     height: 128,
     backgroundColor: '#E46F44',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 16,
   },
   logo: {
     width: 160,

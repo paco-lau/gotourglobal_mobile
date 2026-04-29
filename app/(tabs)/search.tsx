@@ -30,7 +30,7 @@ const EXPANDED_TRIP_OPEN = 310;
 const EXPANDED_VISITORS = 210;
 const COLLAPSED = 64;
 
-type Section = 'destination' | 'date' | 'tripType' | 'visitors';
+type Section = 'destination' | 'date' | 'tripType' | 'visitors' | null;
 
 function isSameDay(a: Date, b: Date) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -137,13 +137,13 @@ export default function SearchScreen() {
   };
 
   const activate = (section: Section) => {
-    if (section === activeSection) return;
-    setActiveSection(section);
+    const next = section === activeSection ? null : section;
+    setActiveSection(next);
     setDropdownOpen(false);
-    timing(destHeight, section === 'destination' ? EXPANDED_DEST : COLLAPSED);
-    timing(dateHeight, section === 'date' ? EXPANDED_DATE : COLLAPSED);
-    timing(tripHeight, section === 'tripType' ? EXPANDED_TRIP : COLLAPSED);
-    timing(visitorsHeight, section === 'visitors' ? EXPANDED_VISITORS : COLLAPSED);
+    timing(destHeight, next === 'destination' ? EXPANDED_DEST : COLLAPSED);
+    timing(dateHeight, next === 'date' ? EXPANDED_DATE : COLLAPSED);
+    timing(tripHeight, next === 'tripType' ? EXPANDED_TRIP : COLLAPSED);
+    timing(visitorsHeight, next === 'visitors' ? EXPANDED_VISITORS : COLLAPSED);
   };
 
   const handleDateSelect = (date: Date) => {
@@ -160,6 +160,7 @@ export default function SearchScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+
         <Pressable onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
         </Pressable>
@@ -179,6 +180,7 @@ export default function SearchScreen() {
         </View>
       </View>
 
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
       {/* Destination block */}
       <Pressable onPress={() => activate('destination')} style={styles.cardWrapper}>
         <Animated.View style={[styles.card, destStyle]}>
@@ -323,6 +325,7 @@ export default function SearchScreen() {
           <Text style={styles.searchBtnText}>Search</Text>
         </Pressable>
       </View>
+      </ScrollView>
     </View>
   );
 }
@@ -352,6 +355,7 @@ const styles = StyleSheet.create({
   datePill: { flex: 1, backgroundColor: '#F0EAE6', borderRadius: 10, padding: 10, alignItems: 'center' },
   datePillLabel: { fontSize: 11, color: '#9BA1A6', fontFamily: 'Inter_400Regular' },
   datePillValue: { fontSize: 15, color: '#11181C', fontFamily: 'Inter_600SemiBold', marginTop: 2 },
+  scrollContent: { paddingBottom: 32 },
   actions: { flexDirection: 'row', gap: 12, marginHorizontal: 16, marginTop: 16 },
   inquiryBtn: { flex: 1, height: 48, borderRadius: 14, borderWidth: 1.5, borderColor: '#E46F44', alignItems: 'center', justifyContent: 'center' },
   inquiryText: { fontSize: 15, fontFamily: 'Inter_600SemiBold', color: '#E46F44' },

@@ -1,10 +1,12 @@
 import { StyleSheet, View, Text, Pressable, ImageBackground, ScrollView } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { useFonts, Inter_700Bold, Inter_400Regular } from '@expo-google-fonts/inter';
 
 export default function TripsScreen() {
+  const { tab } = useLocalSearchParams<{ tab?: string }>();
   const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular });
   const [active, setActive] = useState<'upcoming' | 'past'>('upcoming');
   const slideX = useSharedValue(0);
@@ -15,9 +17,18 @@ export default function TripsScreen() {
     transform: [{ translateX: slideX.value }],
   }));
 
-  const select = (tab: 'upcoming' | 'past') => {
-    setActive(tab);
-    slideX.value = withTiming(tab === 'upcoming' ? 0 : tabWidth, {
+  useEffect(() => {
+    const next = tab === 'past' ? 'past' : 'upcoming';
+    setActive(next);
+    slideX.value = withTiming(next === 'past' ? tabWidth : 0, {
+      duration: 250,
+      easing: Easing.inOut(Easing.ease),
+    });
+  }, [tab]);
+
+  const select = (t: 'upcoming' | 'past') => {
+    setActive(t);
+    slideX.value = withTiming(t === 'upcoming' ? 0 : tabWidth, {
       duration: 250,
       easing: Easing.inOut(Easing.ease),
     });
@@ -87,7 +98,8 @@ const styles = StyleSheet.create({
     height: 128,
     backgroundColor: '#E46F44',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 16,
   },
   title: {
     fontSize: 32,
