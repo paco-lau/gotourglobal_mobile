@@ -182,11 +182,13 @@ export default function SearchScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
       {/* Destination block */}
-      <Pressable onPress={() => activate('destination')} style={styles.cardWrapper}>
+      <View style={styles.cardWrapper}>
         <Animated.View style={[styles.card, destStyle]}>
-          <Text style={[styles.cardTitle, activeSection !== 'destination' && styles.cardTitleDimmed]}>
-            Destination
-          </Text>
+          <Pressable onPress={() => activate('destination')}>
+            <Text style={[styles.cardTitle, activeSection !== 'destination' && styles.cardTitleDimmed]}>
+              Destination
+            </Text>
+          </Pressable>
           {activeSection === 'destination' && (
             <>
               <View style={styles.searchBar}>
@@ -208,14 +210,16 @@ export default function SearchScreen() {
             </>
           )}
         </Animated.View>
-      </Pressable>
+      </View>
 
       {/* Date block */}
-      <Pressable onPress={() => activate('date')} style={styles.cardWrapper}>
+      <View style={styles.cardWrapper}>
         <Animated.View style={[styles.card, dateStyle]}>
-          <Text style={[styles.cardTitle, activeSection !== 'date' && styles.cardTitleDimmed]}>
-            Date
-          </Text>
+          <Pressable onPress={() => activate('date')}>
+            <Text style={[styles.cardTitle, activeSection !== 'date' && styles.cardTitleDimmed]}>
+              Date
+            </Text>
+          </Pressable>
           {activeSection === 'date' && (
             <>
               <View style={styles.dateRow}>
@@ -233,14 +237,16 @@ export default function SearchScreen() {
             </>
           )}
         </Animated.View>
-      </Pressable>
+      </View>
 
       {/* Type of Trip block */}
-      <Pressable onPress={() => activate('tripType')} style={styles.cardWrapper}>
+      <View style={styles.cardWrapper}>
         <Animated.View style={[styles.card, tripStyle]}>
-          <Text style={[styles.cardTitle, activeSection !== 'tripType' && styles.cardTitleDimmed]}>
-            Type of Trip
-          </Text>
+          <Pressable onPress={() => activate('tripType')}>
+            <Text style={[styles.cardTitle, activeSection !== 'tripType' && styles.cardTitleDimmed]}>
+              Type of Trip
+            </Text>
+          </Pressable>
           {activeSection === 'tripType' && (
             <View>
               <Pressable
@@ -271,19 +277,21 @@ export default function SearchScreen() {
             </View>
           )}
         </Animated.View>
-      </Pressable>
+      </View>
 
       {/* Visitors block */}
-      <Pressable onPress={() => activate('visitors')} style={styles.cardWrapper}>
+      <View style={styles.cardWrapper}>
         <Animated.View style={[styles.card, visitorsStyle]}>
-          <View style={styles.visitorTitleRow}>
-            <Text style={[styles.cardTitle, { marginBottom: 0 }, activeSection !== 'visitors' && styles.cardTitleDimmed]}>
-              Visitors
-            </Text>
-            {activeSection === 'visitors' && selected === 'Solo' && (
-              <Text style={styles.visitorLocked}>Not available for solo trips</Text>
-            )}
-          </View>
+          <Pressable onPress={() => activate('visitors')}>
+            <View style={[styles.visitorTitleRow, activeSection !== 'visitors' && { marginBottom: 0 }]}>
+              <Text style={[styles.cardTitle, { marginBottom: 0 }, activeSection !== 'visitors' && styles.cardTitleDimmed]}>
+                Visitors
+              </Text>
+              {activeSection === 'visitors' && selected === 'Solo' && (
+                <Text style={styles.visitorLocked}>Not available for solo trips</Text>
+              )}
+            </View>
+          </Pressable>
           {activeSection === 'visitors' && (
             <View style={styles.visitorRows}>
               {([
@@ -314,7 +322,7 @@ export default function SearchScreen() {
             </View>
           )}
         </Animated.View>
-      </Pressable>
+      </View>
 
       <View style={styles.actions}>
         <Pressable style={styles.inquiryBtn}>
@@ -332,7 +340,7 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F0EAE6' },
-  header: { height: 160, backgroundColor: '#E8613A', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, justifyContent: 'space-between' },
+  header: { height: 128, backgroundColor: '#E8613A', paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, justifyContent: 'space-between' },
   backButton: { alignSelf: 'flex-start' },
   tripTypes: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 48 },
   typeButton: { alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20 },

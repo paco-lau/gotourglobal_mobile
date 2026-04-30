@@ -1,10 +1,12 @@
 import { StyleSheet, View, ScrollView, Pressable, Text } from 'react-native';
 import { useRef, useCallback } from 'react';
-import { router, useFocusEffect } from 'expo-router';
+import { router, useFocusEffect, Href } from 'expo-router';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Inter_500Medium, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 import { ThemedView } from '@/components/themed-view';
+import { SwipeTabWrapper } from '@/components/swipe-tab-wrapper';
+import GTGLogo from '@/assets/logo/GTG_Logo.svg';
 
 const TRIPS = [
   {
@@ -12,18 +14,21 @@ const TRIPS = [
     image: require('@/assets/places/CostaRicaRetreat.png'),
     title: 'Costa Rica Retreat',
     subtitle: '$5,481 total | 6 nights',
+    route: null,
   },
   {
     id: '2',
     image: require('@/assets/places/ParisGetaway.png'),
     title: 'Paris Getaway',
     subtitle: '$8,591 total | 5 nights',
+    route: '/paris' as Href,
   },
   {
     id: '3',
     image: require('@/assets/places/NewYork.png'),
     title: 'New York Experience',
     subtitle: '$3,507 total | 4 nights',
+    route: null,
   },
 ];
 
@@ -33,7 +38,7 @@ function TripCards({ scrollRef, fontsLoaded }: { scrollRef: React.RefObject<Scro
   return (
     <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false} style={styles.cardsScroll}>
       {TRIPS.map((trip) => (
-        <Pressable key={trip.id} style={styles.card}>
+        <Pressable key={trip.id} style={styles.card} onPress={() => trip.route && router.push(trip.route)}>
           <Image source={trip.image} style={styles.cardImage} contentFit="cover" />
           <Text
             style={[styles.cardTitle, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}
@@ -67,13 +72,10 @@ export default function ExploreScreen() {
   };
 
   return (
+    <SwipeTabWrapper currentTab="explore">
     <ThemedView style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={require('@/assets/logo/GTG_Logo.svg')}
-          style={styles.logo}
-          contentFit="contain"
-        />
+        <GTGLogo width={100} height={50} />
       </View>
       <View style={styles.searchWrapper}>
         <Pressable style={styles.searchBar} onPress={() => router.push('/search')}>
@@ -91,7 +93,7 @@ export default function ExploreScreen() {
 
         <TripCards scrollRef={popularRef} fontsLoaded={!!fontsLoaded} />
 
-        <Pressable style={[styles.sectionHeader, { marginTop: 16 }]} onPress={() => scrollForward(nearbyRef)}>
+        <Pressable style={[styles.sectionHeader, { marginTop: 32 }]} onPress={() => scrollForward(nearbyRef)}>
           <Text style={[styles.sectionTitle, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>
             Trips Nearby
           </Text>
@@ -101,6 +103,7 @@ export default function ExploreScreen() {
         <TripCards scrollRef={nearbyRef} fontsLoaded={!!fontsLoaded} />
       </ScrollView>
     </ThemedView>
+    </SwipeTabWrapper>
   );
 }
 
@@ -161,6 +164,7 @@ const styles = StyleSheet.create({
   cardsScroll: {
     marginHorizontal: -24,
     paddingHorizontal: 24,
+    paddingBottom: 12,
   },
   card: {
     width: 175,

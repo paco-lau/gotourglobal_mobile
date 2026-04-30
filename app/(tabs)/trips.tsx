@@ -1,47 +1,44 @@
-import { StyleSheet, View, Text, Pressable, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Pressable, ImageBackground, ScrollView, TouchableHighlight } from 'react-native';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocalSearchParams, useFocusEffect } from 'expo-router';
+import { useLocalSearchParams, useFocusEffect, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { useFonts, Inter_700Bold, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { Image } from 'expo-image';
+import { SwipeTabWrapper } from '@/components/swipe-tab-wrapper';
+import UpcomingSvg from '@/assets/icons/Upcoming.svg';
+import PastSvg from '@/assets/icons/Past.svg';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 
 export default function TripsScreen() {
   const { tab } = useLocalSearchParams<{ tab?: string }>();
   const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular, Inter_500Medium });
   const [active, setActive] = useState<'upcoming' | 'past'>('upcoming');
+  const listScrollRef = useRef<ScrollView>(null);
+  const [tabWidth, setTabWidth] = useState(0);
   const slideX = useSharedValue(0);
 
-  const [tabWidth, setTabWidth] = useState(0);
-  const listScrollRef = useRef<ScrollView>(null);
+  const indicatorStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: slideX.value }],
+  }));
 
   useFocusEffect(useCallback(() => {
     const t = setTimeout(() => listScrollRef.current?.scrollTo({ y: 0, animated: false }), 0);
     return () => clearTimeout(t);
   }, []));
 
-  const indicatorStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: slideX.value }],
-  }));
-
   useEffect(() => {
     const next = tab === 'past' ? 'past' : 'upcoming';
     setActive(next);
-    slideX.value = withTiming(next === 'past' ? tabWidth : 0, {
-      duration: 250,
-      easing: Easing.inOut(Easing.ease),
-    });
-  }, [tab]);
+    slideX.value = withTiming(next === 'past' ? tabWidth : 0, { duration: 250, easing: Easing.inOut(Easing.ease) });
+  }, [tab, tabWidth]);
 
   const select = (t: 'upcoming' | 'past') => {
     setActive(t);
-    slideX.value = withTiming(t === 'upcoming' ? 0 : tabWidth, {
-      duration: 250,
-      easing: Easing.inOut(Easing.ease),
-    });
+    slideX.value = withTiming(t === 'past' ? tabWidth : 0, { duration: 250, easing: Easing.inOut(Easing.ease) });
   };
 
   return (
+    <SwipeTabWrapper currentTab="trips">
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={[styles.title, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>
@@ -54,30 +51,30 @@ export default function TripsScreen() {
         onLayout={(e) => setTabWidth(e.nativeEvent.layout.width / 2)}>
         <Animated.View style={[styles.indicator, { width: tabWidth }, indicatorStyle]} />
         <Pressable style={styles.tab} onPress={() => select('upcoming')}>
-          <Image source={require('@/assets/icons/Upcoming.svg')} style={styles.tabIcon} />
-          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }, active === 'upcoming' && styles.tabTextActive]}>
+          <UpcomingSvg width={16} height={16} />
+          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}>
             Upcoming
           </Text>
         </Pressable>
         <Pressable style={styles.tab} onPress={() => select('past')}>
-          <Image source={require('@/assets/icons/Past.svg')} style={styles.tabIcon} />
-          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }, active === 'past' && styles.tabTextActive]}>
+          <PastSvg width={16} height={16} />
+          <Text style={[styles.tabText, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}>
             Past
           </Text>
         </Pressable>
       </View>
 
       {(active === 'upcoming' || active === 'past') && (
-        <ScrollView ref={listScrollRef} contentContainerStyle={styles.destinationList} showsVerticalScrollIndicator={false}>
+        <ScrollView ref={listScrollRef} contentContainerStyle={styles.destinationList} showsVerticalScrollIndicator={false} style={styles.tripList}>
           {(active === 'upcoming' ? [
-            { label: 'Costa Rica', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/CostaRicaHorizontal.png') },
-            { label: 'Paris', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/ParisHorizontal.png') },
-            { label: 'Singapore', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/SingaporeHorizontal.png') },
+            { label: 'Costa Rica', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/CostaRicaHorizontal.png'), route: null },
+            { label: 'Paris', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/ParisHorizontal.png'), route: '/paris' },
+            { label: 'Singapore', subtitle: 'Mar 18 - Mar 25', image: require('../../assets/horizontal/SingaporeHorizontal.png'), route: null },
           ] : [
-            { label: 'San Francisco', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/SanFranciscoHorizontal.png') },
-            { label: 'New York City', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/NewYorkCityHorizontal.png') },
-          ]).map(({ label, subtitle, image }) => (
-            <Pressable key={label} style={styles.destinationCard}>
+            { label: 'San Francisco', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/SanFranciscoHorizontal.png'), route: null },
+            { label: 'New York City', subtitle: 'Mar 8 - Mar 15', image: require('../../assets/horizontal/NewYorkCityHorizontal.png'), route: null },
+          ]).map(({ label, subtitle, image, route }) => (
+            <Pressable key={label} style={styles.destinationCard} onPress={() => route && router.push(route as any)}>
               <ImageBackground source={image} style={styles.destinationImage} imageStyle={styles.destinationImageStyle} resizeMode="cover">
                 <View style={styles.cardOverlay} />
                 <View style={styles.cardContent}>
@@ -86,9 +83,9 @@ export default function TripsScreen() {
                     <Text style={[styles.destinationSubtitle, fontsLoaded && { fontFamily: 'Inter_400Regular' }]}>{subtitle}</Text>
                   </View>
                   <View style={styles.cardBottomRight}>
-                    <View style={styles.arrowButton}>
+                    <TouchableHighlight style={styles.arrowButton} underlayColor="#B84D2E" onPress={() => route && router.push(route as any)}>
                       <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
-                    </View>
+                    </TouchableHighlight>
                   </View>
                 </View>
               </ImageBackground>
@@ -97,6 +94,7 @@ export default function TripsScreen() {
         </ScrollView>
       )}
     </View>
+    </SwipeTabWrapper>
   );
 }
 
@@ -140,6 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
+    borderRadius: 999,
   },
   tabIcon: {
     width: 16,
@@ -153,10 +152,13 @@ const styles = StyleSheet.create({
   tabTextActive: {
     color: '#FFFFFF',
   },
+  tripList: {
+    marginTop: 20,
+  },
   destinationList: {
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 20,
+    paddingTop: 0,
     paddingBottom: 32,
     gap: 16,
   },

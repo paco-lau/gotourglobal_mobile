@@ -1,29 +1,20 @@
 import { Tabs, usePathname } from 'expo-router';
 import React from 'react';
-import { Image } from 'expo-image';
-
 import { HapticTab } from '@/components/haptic-tab';
+import SearchSvg from '@/assets/icons/Search.svg';
+import PersonSvg from '@/assets/icons/Person.svg';
+import GroupSvg from '@/assets/icons/Group.svg';
 
 function ExploreTabIcon() {
   const pathname = usePathname();
   const active = pathname.includes('explore') || pathname.includes('search');
-  return (
-    <Image
-      source={require('@/assets/icons/Search.svg')}
-      style={{ width: 28, height: 28, opacity: active ? 1 : 0.3 }}
-    />
-  );
+  return <SearchSvg width={28} height={28} opacity={active ? 1 : 0.3} />;
 }
 
 function ProfileTabIcon() {
   const pathname = usePathname();
   const active = pathname.includes('profile') || pathname.includes('payment');
-  return (
-    <Image
-      source={require('@/assets/icons/Person.svg')}
-      style={{ width: 28, height: 28, opacity: active ? 1 : 0.3 }}
-    />
-  );
+  return <PersonSvg width={28} height={28} opacity={active ? 1 : 0.3} />;
 }
 
 export default function TabLayout() {
@@ -48,10 +39,7 @@ export default function TabLayout() {
         name="trips"
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require('@/assets/icons/Group.svg')}
-              style={{ width: 28, height: 28, opacity: focused ? 1 : 0.3 }}
-            />
+            <GroupSvg width={28} height={28} opacity={focused ? 1 : 0.3} />
           ),
         }}
       />

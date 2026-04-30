@@ -1,9 +1,13 @@
-import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useRef, useCallback } from 'react';
-import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useFocusEffect } from 'expo-router';
+import { SwipeTabWrapper } from '@/components/swipe-tab-wrapper';
 import { useFonts, Inter_700Bold, Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import BarcodeSvg from '@/assets/icons/barcode.svg';
+import MyTripsSvg from '@/assets/icons/MyTrips.svg';
+import PostTripSvg from '@/assets/icons/PostTrip.svg';
+import PaymentSvg from '@/assets/icons/Payment.svg';
 
 export default function ProfileScreen() {
   const [fontsLoaded] = useFonts({ Inter_700Bold, Inter_400Regular, Inter_600SemiBold });
@@ -15,6 +19,7 @@ export default function ProfileScreen() {
   }, []));
 
   return (
+    <SwipeTabWrapper currentTab="profile">
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={[styles.title, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>
@@ -37,18 +42,18 @@ export default function ProfileScreen() {
                 <Text style={[styles.statTitle, fontsLoaded && { fontFamily: 'Inter_600SemiBold' }]}>Trips Taken</Text>
                 <Text style={[styles.statValue, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>0</Text>
               </View>
-              <View style={styles.statDivider} />
+              <View style={styles.statDivider}><View style={styles.statDividerLine} /></View>
               <View style={styles.statRow}>
                 <Text style={[styles.statTitle, fontsLoaded && { fontFamily: 'Inter_600SemiBold' }]}>New Locations</Text>
                 <Text style={[styles.statValue, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>0</Text>
               </View>
-              <View style={styles.statDivider} />
+              <View style={styles.statDivider}><View style={styles.statDividerLine} /></View>
               <View style={styles.statRow}>
                 <Text style={[styles.statTitle, fontsLoaded && { fontFamily: 'Inter_600SemiBold' }]}>Posts</Text>
                 <Text style={[styles.statValue, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>0</Text>
               </View>
             </View>
-            <Image source={require('@/assets/icons/barcode.svg')} style={styles.barcode} contentFit="contain" />
+            <BarcodeSvg width={48} height="100%" />
           </View>
         </View>
       </View>
@@ -56,22 +61,25 @@ export default function ProfileScreen() {
       <Text style={[styles.sectionTitle, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>Account</Text>
 
       <View style={styles.accountList}>
-        {[
-          { label: 'My Trips', icon: require('@/assets/icons/MyTrips.svg'), onPress: () => router.push({ pathname: '/(tabs)/trips', params: { tab: 'upcoming' } }) },
-          { label: 'Post Trip', icon: require('@/assets/icons/PostTrip.svg'), onPress: () => router.push({ pathname: '/(tabs)/trips', params: { tab: 'past' } }) },
-          { label: 'Payment', icon: require('@/assets/icons/Payment.svg'), onPress: () => router.push('/(tabs)/payment') },
-        ].map(({ label, icon, onPress }) => (
-          <Pressable key={label} onPress={onPress} style={({ pressed }) => [styles.accountItem, pressed && { opacity: 0.7 }]}>
-            <View style={styles.accountIcon}>
-              <Image source={icon} style={styles.accountIconImage} contentFit="contain" />
-            </View>
-            <Text style={[styles.accountLabel, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>{label}</Text>
-            <Ionicons name="chevron-forward" size={20} color="#000000" style={styles.accountChevron} />
-          </Pressable>
-        ))}
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push({ pathname: '/(tabs)/trips', params: { tab: 'upcoming' } })} style={styles.accountItem}>
+          <View style={styles.accountIcon}><MyTripsSvg width={18} height={18} /></View>
+          <Text style={[styles.accountLabel, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>My Trips</Text>
+          <Ionicons name="chevron-forward" size={20} color="#000000" />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push({ pathname: '/(tabs)/trips', params: { tab: 'past' } })} style={styles.accountItem}>
+          <View style={styles.accountIcon}><PostTripSvg width={18} height={18} /></View>
+          <Text style={[styles.accountLabel, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>Post Trip</Text>
+          <Ionicons name="chevron-forward" size={20} color="#000000" />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/(tabs)/payment')} style={styles.accountItem}>
+          <View style={styles.accountIcon}><PaymentSvg width={18} height={18} /></View>
+          <Text style={[styles.accountLabel, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>Payment</Text>
+          <Ionicons name="chevron-forward" size={20} color="#000000" />
+        </TouchableOpacity>
       </View>
       </ScrollView>
     </View>
+    </SwipeTabWrapper>
   );
 }
 
@@ -196,10 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF3EE',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  accountIconImage: {
-    width: 18,
-    height: 18,
+    overflow: 'hidden',
   },
   accountLabel: {
     fontSize: 20,
@@ -207,13 +212,16 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     flex: 1,
   },
-  accountChevron: {
-    marginLeft: 'auto',
-  },
   statDivider: {
-    borderBottomWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: '#000000',
     marginVertical: 4,
+    height: 2,
+    justifyContent: 'center',
+  },
+  statDividerLine: {
+    height: 1.5,
+    borderRadius: 1,
+    borderWidth: 0.75,
+    borderColor: '#000000',
+    borderStyle: 'dashed',
   },
 });

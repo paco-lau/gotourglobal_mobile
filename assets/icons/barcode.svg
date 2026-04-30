@@ -1,25 +1,39 @@
-<svg width="33" height="143" viewBox="0 0 33 143" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect x="32.0898" y="0.0668945" width="44.0272" height="31.9979" transform="rotate(90.1197 32.0898 0.0668945)" fill="url(#pattern0_1032_2279)"/>
-<rect x="32.0898" y="27.0669" width="44.0272" height="31.9979" transform="rotate(90.1197 32.0898 27.0669)" fill="url(#pattern1_1032_2279)"/>
-<rect x="32.0898" y="49.0669" width="44.0272" height="31.9979" transform="rotate(90.1197 32.0898 49.0669)" fill="url(#pattern2_1032_2279)"/>
-<rect x="32.0898" y="73.0669" width="44.0272" height="31.9979" transform="rotate(90.1197 32.0898 73.0669)" fill="url(#pattern3_1032_2279)"/>
-<rect x="32.0898" y="98.0669" width="44.0272" height="31.9979" transform="rotate(90.1197 32.0898 98.0669)" fill="url(#pattern4_1032_2279)"/>
-<defs>
-<pattern id="pattern0_1032_2279" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1032_2279" transform="matrix(0.0080753 0 0 0.0111111 0.136612 0)"/>
-</pattern>
-<pattern id="pattern1_1032_2279" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1032_2279" transform="matrix(0.0080753 0 0 0.0111111 0.136612 0)"/>
-</pattern>
-<pattern id="pattern2_1032_2279" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1032_2279" transform="matrix(0.0080753 0 0 0.0111111 0.136612 0)"/>
-</pattern>
-<pattern id="pattern3_1032_2279" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1032_2279" transform="matrix(0.0080753 0 0 0.0111111 0.136612 0)"/>
-</pattern>
-<pattern id="pattern4_1032_2279" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1032_2279" transform="matrix(0.0080753 0 0 0.0111111 0.136612 0)"/>
-</pattern>
-<image id="image0_1032_2279" width="90" height="90" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAABl0lEQVR4nO3cwUoDQRBF0aeLgF+ecSOiAf3BSXSjblyXCL2SKph5U5GI90BvpNNV3g8YCQAAAAAAXLjrM9+/NL++/42kg6SPcR7H37ru7yTdSjpKigVnljSN3619c8lv1+7f5j75Z+8a708LA/8804Y3p8b927wkg18b7x/N0KcNb54a929TLXvu+7HgbHmza/82hBahK4ROENocHIT2EFqErhA6QWhzcBDaQ2gRukLoBKHNwUFoD6FF6AqhE4Q2BwehPYQWoSuEThDaHByE9hBahK4QOkFoc3AQ2kNoEbpC6AShzcFBaA+hRegKoROENgcHoT2EFqErhE4Q2hwchPYQWoSuEDpBaHNwENpDaBG6QugEoc3BQWgPoUXoCqEThDYHB6E9hBahK4ROENocHIT2EFqErhA6QWhzcBDaQ2gRukLoBKGH92ToW+P92Yw8b3hzbty/zSEZ/NB4fzJD7ze8uW/cv833R6qfJX2O87TgQ93PK+7vRpi5+UPd2ZtLP9S9Zv92V+Oc6/6l+ev7AwAAAACgf+ALhC+h3T1j0VUAAAAASUVORK5CYII="/>
-</defs>
+<svg width="33" height="143" viewBox="0 0 33 143" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="33" height="2" fill="black"/>
+  <rect x="0" y="4" width="33" height="1" fill="black"/>
+  <rect x="0" y="7" width="33" height="3" fill="black"/>
+  <rect x="0" y="12" width="33" height="1" fill="black"/>
+  <rect x="0" y="15" width="33" height="2" fill="black"/>
+  <rect x="0" y="19" width="33" height="1" fill="black"/>
+  <rect x="0" y="22" width="33" height="3" fill="black"/>
+  <rect x="0" y="27" width="33" height="2" fill="black"/>
+  <rect x="0" y="31" width="33" height="1" fill="black"/>
+  <rect x="0" y="34" width="33" height="2" fill="black"/>
+  <rect x="0" y="38" width="33" height="3" fill="black"/>
+  <rect x="0" y="43" width="33" height="1" fill="black"/>
+  <rect x="0" y="46" width="33" height="2" fill="black"/>
+  <rect x="0" y="50" width="33" height="1" fill="black"/>
+  <rect x="0" y="53" width="33" height="3" fill="black"/>
+  <rect x="0" y="58" width="33" height="2" fill="black"/>
+  <rect x="0" y="62" width="33" height="1" fill="black"/>
+  <rect x="0" y="65" width="33" height="3" fill="black"/>
+  <rect x="0" y="70" width="33" height="1" fill="black"/>
+  <rect x="0" y="73" width="33" height="2" fill="black"/>
+  <rect x="0" y="77" width="33" height="3" fill="black"/>
+  <rect x="0" y="82" width="33" height="1" fill="black"/>
+  <rect x="0" y="85" width="33" height="2" fill="black"/>
+  <rect x="0" y="89" width="33" height="1" fill="black"/>
+  <rect x="0" y="92" width="33" height="3" fill="black"/>
+  <rect x="0" y="97" width="33" height="2" fill="black"/>
+  <rect x="0" y="101" width="33" height="1" fill="black"/>
+  <rect x="0" y="104" width="33" height="2" fill="black"/>
+  <rect x="0" y="108" width="33" height="3" fill="black"/>
+  <rect x="0" y="113" width="33" height="1" fill="black"/>
+  <rect x="0" y="116" width="33" height="2" fill="black"/>
+  <rect x="0" y="120" width="33" height="1" fill="black"/>
+  <rect x="0" y="123" width="33" height="3" fill="black"/>
+  <rect x="0" y="128" width="33" height="2" fill="black"/>
+  <rect x="0" y="132" width="33" height="1" fill="black"/>
+  <rect x="0" y="135" width="33" height="3" fill="black"/>
+  <rect x="0" y="140" width="33" height="3" fill="black"/>
 </svg>

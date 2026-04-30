@@ -1,9 +1,12 @@
-import { StyleSheet, View, Text, Pressable, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, Pressable, ScrollView, ImageBackground, TouchableHighlight } from 'react-native';
 import { useRef, useCallback } from 'react';
 import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, Inter_700Bold, Inter_500Medium } from '@expo-google-fonts/inter';
 import { Image } from 'expo-image';
+import PlaneSvg from '@/assets/icons/plane.svg';
+import DateSvg from '@/assets/icons/date.svg';
+import PackagesCalendarSvg from '@/assets/icons/PackagesCalendar.svg';
 
 const trips = [
   { name: 'Costa Rica', image: require('@/assets/horizontal/CostaRicaHorizontal.png') },
@@ -45,7 +48,7 @@ export default function PaymentScreen() {
             </View>
             <View style={styles.cardBottom}>
               <View style={styles.cardBottomLeft}>
-                <Image source={require('@/assets/icons/plane.svg')} style={styles.bottomIcon} />
+                <PlaneSvg width={24} height={24} />
                 <View>
                   <Text style={[styles.bottomTitle, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>3 Trips</Text>
                   <Text style={[styles.bottomSubtitle, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}>Upcoming</Text>
@@ -53,7 +56,7 @@ export default function PaymentScreen() {
               </View>
               <View style={styles.divider} />
               <View style={styles.cardBottomRight}>
-                <Image source={require('@/assets/icons/date.svg')} style={styles.bottomIcon} />
+                <DateSvg width={24} height={24} />
                 <View>
                   <Text style={[styles.bottomTitle, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>Apr 1</Text>
                   <Text style={[styles.bottomSubtitle, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}>Due Date</Text>
@@ -78,13 +81,13 @@ export default function PaymentScreen() {
                     </View>
                     <Text style={[styles.tripName, fontsLoaded && { fontFamily: 'Inter_700Bold' }]}>{trip.name}</Text>
                     <View style={styles.tripDateRow}>
-                      <Image source={require('@/assets/icons/PackagesCalendar.svg')} style={styles.calendarIcon} />
+                      <PackagesCalendarSvg width={14} height={14} />
                       <Text style={[styles.tripDate, fontsLoaded && { fontFamily: 'Inter_500Medium' }]}>Due Apr 1, 2026</Text>
                     </View>
                   </View>
-                  <View style={styles.arrowButton}>
+                  <TouchableHighlight style={styles.arrowButton} underlayColor="#B84D2E" onPress={() => {}}>
                     <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
-                  </View>
+                  </TouchableHighlight>
                 </View>
               </View>
             </ImageBackground>
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
   cardShadow: {
     marginHorizontal: 16,
     marginTop: 16,
-    height: 240,
+    height: 200,
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   cardTop: {
-    flex: 2,
+    flex: 1.8,
     backgroundColor: '#E8613A',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
